@@ -1,0 +1,23 @@
+global proc randomDuplicateSelection(int $nrDuplicates, int $spaceing)
+{
+    string $sel[] = `ls -sl`;
+    if(size($sel) > 1)
+    {
+        warning "only the first element will be used";
+    }
+    for($i = 0; $i < $nrDuplicates;$i++)
+    {     
+     string $firstEl = $sel[0];
+     string $dup[] = `duplicate -rr $firstEl`;
+     vector $newPos = `rand <<-$spaceing, -$spaceing, -$spaceing>> <<$spaceing, $spaceing, $spaceing>>`;
+     move -r ($newPos.x) 0 ($newPos.z) $dup;
+     float $newY = `rand -180 180`;
+     rotate -r -ws -fo 0 $newY 0 $dup;
+     float $newScaleY = `rand 0.5 10`;
+     scale -a 1 $newScaleY 1 $dup;
+     move -r 0 ($newScaleY * 0.5) 0 $dup;
+    }
+    select -r $sel;
+};
+
+randomDuplicateSelection(100,5);

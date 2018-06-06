@@ -1,0 +1,24 @@
+string $win = "window";
+if(`window -q -ex $win`)
+{
+    deleteUI $win;
+}
+
+window -t "Welcome" -s true $win;
+window -e -h 300 -w 300 $win;
+    columnLayout -adj true;
+        rowLayout -nc 2;
+            textField -h 20 -w 200 -pht "Enter Your Name" field;
+            button -l "Invio" -h 20 -w 40 -c "WelcomeMessage" "btn1";
+        setParent..;
+showWindow;
+
+proc CreateWelcomeMessage()
+{
+    string $yourName = `textField -q -text yourName`;
+
+    columnLayout -adj true;
+        text -h 5 -l "";
+        text -l ("Hi "+ $yourName);
+        
+}

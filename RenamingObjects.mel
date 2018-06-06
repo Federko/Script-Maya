@@ -1,0 +1,19 @@
+proc rename(string $newName)
+{
+    string $sel[] =  `ls -os`;
+    for($i = 0;$i<size($sel); $i++)
+    {
+        string $name = "";
+        if(`gmatch $newName "*#*"`)
+        {
+            string $istring = $i;
+            $name = `substitute "#" $newName $istring`;
+        }
+        else
+        {
+           $name = $newName + $i;
+        }
+       rename $sel[$i] $name;
+    }
+}
+rename("prova#cane");

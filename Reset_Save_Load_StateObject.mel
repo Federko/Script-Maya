@@ -1,0 +1,135 @@
+global proc resetControls()
+{
+    string $ctrls[] = `ls -type "nurbsCurve" "*_fk_*" "*_ac_*"`;
+    for($shape in $ctrls)
+    {
+        print($shape + "\n");
+        string $parent = `firstParentOf($shape)`;
+        string $defAttributes[] = `listAttr -keyable $parent`;
+        print($defAttributes);
+        print "\n";
+        
+        for($defAttr in $defAttributes)
+        {
+            if(`gmatch $defAttr "translate*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 0;
+            }
+            else if(`gmatch $defAttr "rotate*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 0;
+            }
+            else if(`gmatch $defAttr "scale*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 1;
+            }
+        }
+        
+        string $udAttributes[] = `listAttr -k -ud $parent`;
+        for($udAttr in $udAttributes)
+        {
+           float $defVal = `addAttr -q -dv ($parent + "." + $udAttr)`;
+                                            //per chiedere il valore di default
+           setAttr ($parent + "." + $udAttr) $defVal;
+        }
+    }
+}
+
+
+global proc loadControls(float $values[])
+{
+    string $ctrls[] = `ls -type "nurbsCurve" "*_fk_*" "*_ac_*"`;
+    for($shape in $ctrls)
+    {
+        print($shape + "\n");
+        string $parent = `firstParentOf($shape)`;
+        string $defAttributes[] = `listAttr -keyable $parent`;
+        print($defAttributes);
+        print "\n";
+        
+        for($defAttr in $defAttributes)
+        {
+            if(`gmatch $defAttr "translate*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 0;
+            }
+            else if(`gmatch $defAttr "rotate*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 0;
+            }
+            else if(`gmatch $defAttr "scale*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 1;
+            }
+        }
+        
+        string $udAttributes[] = `listAttr -k -ud $parent`;
+        for($udAttr in $udAttributes)
+        {
+           float $defVal = `addAttr -q -dv ($parent + "." + $udAttr)`;
+                                            //per chiedere il valore di default
+           setAttr ($parent + "." + $udAttr) $defVal;
+        }
+    }
+}
+
+global proc saveControls(float $values[])
+{
+    string $ctrls[] = `ls -type "nurbsCurve" "*_fk_*" "*_ac_*"`;
+    for($shape in $ctrls)
+    {
+        print($shape + "\n");
+        string $parent = `firstParentOf($shape)`;
+        string $defAttributes[] = `listAttr -keyable $parent`;
+        print($defAttributes);
+        print "\n";
+        
+        for($defAttr in $defAttributes)
+        {
+            if(`gmatch $defAttr "translate*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 0;
+            }
+            else if(`gmatch $defAttr "rotate*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 0;
+            }
+            else if(`gmatch $defAttr "scale*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 1;
+            }
+        }
+        
+        string $udAttributes[] = `listAttr -k -ud $parent`;
+        for($udAttr in $udAttributes)
+        {
+           float $defVal = `addAttr -q -dv ($parent + "." + $udAttr)`;
+                                            //per chiedere il valore di default
+           setAttr ($parent + "." + $udAttr) $defVal;
+        }
+    }
+}
+string $window = "window";
+if(`window -q -ex $window`)
+{
+    deleteUI $window;
+}
+window -t "Reset-Save-Load-StateObject Window" -s true $window;
+window -e -h 300 -w 300 -bgc 0 0 0 $window;
+    columnLayout -adj true;
+        rowLayout -nc 2;
+            text -h 100 -w 200 -l "Reset Values" -bgc 1 1 0;
+            button -h 50 -w 50 -l "Reset" -c resetControls -bgc 1 1 0;
+        setParent..;
+        
+             rowLayout -nc 2;
+            text -h 100 -w 200 -l "Load Values" -bgc 0 1 1;
+            button -h 50 -w 50 -l "Load" -c loadControls -bgc 0 1 1;
+        setParent..;
+        
+             rowLayout -nc 2;
+            text -h 100 -w 200 -l "Save Values" -bgc 1 0 0;
+            button -h 50 -w 50 -l "Save" -c saveControls -bgc 1 0 0;
+        setParent..;
+    setParent..;
+showWindow;

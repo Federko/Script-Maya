@@ -1,0 +1,46 @@
+proc CreateCube()
+{
+    polyCube;
+}
+
+proc createCubes()
+{
+    int $cubes = `intField -q -v nrCubes`;
+    for($i = 0; $i < $cubes; $i = $i + 1)
+    {
+        polyCube;
+    }
+}
+
+
+string $win = "window";
+if(`window -q -ex $win`)
+{
+    deleteUI $win;
+}
+window -t "Test Window" -s true $win;
+window -e -h 100 -w 300 -s false $win;
+    columnLayout -adj true;
+    text -h 5 -l "";
+    text -l "this is the documentation";
+    text -h 10 -l "";
+    setParent..;
+    columnLayout -bgc 0 0 1;
+       button -l "Premi qui" -c "CreateCube" "btn1";
+       rowLayout -nc 2;
+            intField nrCubes;
+            button -l "Non premere qui" -c "createCubes" "btn2";
+            setParent..;
+       button "cane";
+    columnLayout -bgc 0 1 0;
+        button "gatto";
+    setParent..;
+    columnLayout;
+        intSliderGrp -label "qualcosa" -field true -min 0 -max 9 -v 5;
+    setParent..;
+    columnLayout;
+        checkBox -label "One" -v 1;
+        checkBox -label "Two" -en false;
+        checkBox -label "Three";
+    setParent..;
+showWindow;

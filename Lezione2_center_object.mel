@@ -1,0 +1,60 @@
+global proc stickObjectToPos()
+{
+    string $sel[] = `ls -sl`;
+    if(size($sel) != 2)
+    {
+        print "Error: you need to select 2 objects";
+        return; 
+    }
+    string $firstObject = $sel[0];
+    string $objToMove = $sel[1];
+    
+    float $x = `getAttr ($firstObject + ".translateX")`;
+    print $x;
+    vector $pos = `xform -q -ws -t $firstObject`;
+    move -a -ws ($pos.x) ($pos.y) ($pos.z) $objToMove;
+}
+
+global proc StickObjectInMiddle()
+{
+    string $sel[] = `ls -os -fl`;
+    if(size($sel) != 3)
+    {
+        print "Error! The Objects must be 3!";
+        return;
+    }
+    
+    string $firstObject = $sel[0];
+    string $secondObject = $sel[1];
+    
+    vector $posFirstObject = `xform -q -ws -t $firstObject`;
+    vector $posSecondObject = `xform -q -ws -t $secondObject`;
+    vector $dir = ($posFirstObject - $posSecondObject) * 0.5;
+    
+    vector $newPosThirdObject = $posSecondObject + $dir;
+  // giusto anche così  vector $newPosThirdObject = ($posFirstObject +$posSecondObject) * 0.5;
+    move -a ($newPosThirdObject.x) ($newPosThirdObject.y) ($newPosThirdObject.z) $sel[2];
+}
+
+global proc ObjectInMiddle()
+{
+    string $sel[] = `ls -os -fl`;
+    if(size($sel) < 3)
+    {
+        print "Error! The Objects must be at least 3!";
+        return;
+    }
+    
+    vector $center = <<0, 0, 0>>;
+    for($i = 0; $i < (size($sel) -1);$i++)
+    {
+        vector $position = `xform -q -ws -t $sel[$i]`;
+        $center += $position;
+    }
+    $center /= size($sel)-1;
+    move -a ($center.x) ($center.y) ($center.z) $sel[size($sel)-1];
+}
+
+ObjectInMiddle;
+//StickObjectInMiddle;
+//stickObjectToPos;

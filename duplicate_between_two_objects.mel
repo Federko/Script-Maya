@@ -1,0 +1,47 @@
+proc DuplicateBetweenTwoObjects(string $objA, string $objB, string $objToDuplicate, int $nTimes)
+{
+    if($nTimes < 1)
+    {
+        print "Error! You need to duplicate at least 1 object!";
+        return;
+    }
+    float $posA[] = `xform -q -t -ws $objA`;
+    float $posB[] = `xform -q -t -ws $objB`;
+    vector $distance = <<(($posA[0] + $posB[0]) / (1 + $nTimes)), (($posA[1] + $posB[1]) / (1 + $nTimes)), (($posA[2] + $posB[2]) / (1 + $nTimes))>>;
+    for($i = 1;$i <= $nTimes; $i++)
+    {
+        string $newObject[] = `duplicate $objToDuplicate`; 
+        move (($distance.x) * $i) (($distance.y) * $i) (($distance.z) * $i) $newObject[0];
+    }
+}
+string $objA[] = `polySphere`;
+string $objB[] = `polySphere`;
+move 50 0 0;
+string $objC[] = `polyCube`;
+move -10 0 -10;
+DuplicateBetweenTwoObjects($objA[0],$objB[0],$objC[0],1);
+
+
+
+
+proc DuplicateBetweenTwoObjects()
+{
+string $vertexs[] = `ls -os`;
+print $vertexs;
+print(size($vertexs));
+int $nTimes = size($vertexs) - 2;
+print $nTimes;
+    if($nTimes < 1)
+    {
+        print "Error! You need to select at least 1 vertex!";
+        return;
+    }
+    float $posA[] = `xform -q -t -ws $vertexs[0]`;
+    float $posB[] = `xform -q -t -ws $vertexs[size($vertexs)-1]`;
+    vector $distance = <<(($posA[0] + $posB[0]) / (1 + $nTimes)), (($posA[1] + $posB[1]) / (1 + $nTimes)), (($posA[2] + $posB[2]) / (1 + $nTimes))>>;
+    for($i = 1;$i <= $nTimes; $i++)
+    {
+        move (($distance.x) * $i) (($distance.y) * $i) (($distance.z) * $i) $vertexs[$i];
+    }
+}
+DuplicateBetweenTwoObjects;

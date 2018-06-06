@@ -1,0 +1,22 @@
+string $sel[] = `ls -os`;
+if(size($sel) != 2)
+{
+    print "Error! you need to selcet 2 elements";
+}
+string $objName = $sel[0];
+string $curveName = $sel[1];
+string $mpName = `pathAnimation -fractionMode true -follow true -followAxis x -upAxis y -worldUpType "vector" -worldUpVector 0 1 0 -inverseUp false -inverseFront false -bank false -startTimeU 1 -endTimeU 120`;
+
+float $width = 2.0;
+float $curveLen = `arclen $curveName`;
+
+float $nrDuplicatesFloats = $curveLen / $width;
+int $nrDuplicatesInts = $nrDuplicatesFloats;
+
+for($i = 0;$i < $nrDuplicatesInts; $i++)
+{
+    setAttr ($mpName + ".uValue") ((1.0 / $nrDuplicatesInts) * $i);
+    xform -q -ws -t $objName;
+    duplicate $objName;
+}
+delete $mpName;

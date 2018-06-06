@@ -1,0 +1,18 @@
+string $sel[] = `ls -selection`;
+int $meshCounts = 0;
+int $jointCounts = 0;
+int $transformCounts = 0;
+for($item in $sel)
+{
+      if(`nodeType $item ` == "transform") ++$transformCounts;
+      if(`nodeType $item` == "mesh") ++$meshCounts;
+      if(`nodeType $item` == "joint") ++$jointCounts;
+}
+print("joint: " + $jointCounts + "\n");
+print("meshes: " + $meshCounts + "\n");
+print("transform: " + $transformCounts + "\n");
+
+
+// print("Selected joint: " + size(`ls -sl -type joint`)) + "\n";
+// print("Selected meshes: " + size(`ls -sl -type mesh`)) + "\n";
+// print("Selected transforms: " + size(`ls -sl -type transform`)) + "\n";

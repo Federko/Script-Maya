@@ -1,0 +1,41 @@
+proc del()
+{
+    select -all;
+    delete;
+}
+
+proc scenario_succl()
+{
+    polyCube;
+    move -a -7 1 0;
+}
+
+proc string parentChainFor(string $obj)
+{
+    string $chain[] = `listRelatives -f $obj`;
+    if(size($chain) == 0) return "";
+    
+    string $array[] = stringToStringArray($chain[0], "|";
+    string $result = "";
+    for($item in $array)
+    {
+        if($item == $obj)return $result;
+        $result += "|" + $item;
+    }
+    return $result;
+}
+
+proc reflect()
+{
+    string $sel = `ls -os -fl`;
+    if(size($sel) == 0)
+    {
+        print "Error! You must select some objects!"
+        return;
+    }
+    
+    string $parents[] = 
+    
+    
+    
+}

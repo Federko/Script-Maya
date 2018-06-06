@@ -1,0 +1,38 @@
+global proc resetControls()
+{
+    string $ctrls[] = `ls -type "nurbsCurve" "*_fk_*" "*_ac_*"`;
+    for($shape in $ctrls)
+    {
+        print($shape + "\n");
+        string $parent = `firstParentOf($shape)`;
+        string $defAttributes[] = `listAttr -keyable $parent`;
+        print($defAttributes);
+        print "\n";
+        
+        for($defAttr in $defAttributes)
+        {
+            if(`gmatch $defAttr "translate*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 0;
+            }
+            else if(`gmatch $defAttr "rotate*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 0;
+            }
+            else if(`gmatch $defAttr "scale*"`)
+            {
+                setAttr ($parent + "." + $defAttr) 1;
+            }
+        }
+        
+        string $udAttributes[] = `listAttr -k -ud $parent`;
+        for($udAttr in $udAttributes)
+        {
+           float $defVal = `addAttr -q -dv ($parent + "." + $udAttr)`;
+                                            //per chiedere il valore di default
+           setAttr ($parent + "." + $udAttr) $defVal;
+        }
+    }
+}
+
+resetControls;

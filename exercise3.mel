@@ -1,0 +1,11 @@
+string $sel[] = `ls -selection`;
+int $size = 0;
+for($item in $sel)
+{
+     $size = $size + 1;
+}
+print $size;
+
+// string $sel = `ls -selection`;
+// int $size = size($sel);
+// print("objects selected = " + $size);

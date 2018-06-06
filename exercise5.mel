@@ -1,0 +1,30 @@
+proc WelcomeMessage()
+{
+    // columnLayout -adj true;
+    //     text -l ("Welcome " + );
+    // setParent..;
+
+    string $name = `text -l -v field`;
+    print $name;
+}
+
+
+string $win = "window";
+if(`window -q -ex $win`)
+{
+    deleteUI $win;
+}
+
+window -t "Welcome" -s true $win;
+window -e -h 300 -w 300 $win;
+    columnLayout -adj true;
+        rowLayout -nc 2;
+            textField -h 20 -w 200 -pht "Enter Your Name" field;
+            button -l "Invio" -h 20 -w 40 -c "WelcomeMessage" "ciao";
+        setParent..;
+    setParent..;
+    columnLayout-adj true;
+        text -label "";
+        string $text = `text -l "Ciao" -align "center" -h 50`;
+    setParent..;
+showWindow;

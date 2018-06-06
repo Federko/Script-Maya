@@ -1,0 +1,20 @@
+//create the first sphere
+string $sphere_one[] = `polySphere`;
+
+//create the second sphere and then move the x axis by 5
+string $sphere_two[] = `polySphere`;
+move -x 5;
+
+//create the third sphere and then move the x axis by 10
+string $sphere_three[] = `polySphere`;
+move -x 10;
+
+
+string $cube_one[] = `polyCube`;
+move -y 3;
+
+string $cube_two[] = `polyCube`;
+move -x 5 -y 3;
+
+string $cube_three[] = `polyCube`;
+move -x 10 -y 3;

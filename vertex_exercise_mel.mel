@@ -1,0 +1,12 @@
+global proc equi(){
+    string $vertex[] = ls -os;
+    float $posA[] = xform -q -t -ws $vertex[0];
+    float $posB[] = xform -q -t -ws $vertex[size($vertex) - 1];
+    vector $distance = <<($posA[0] - $posB[0]),($posA[1] - $posB[1]),($posA[2] - $posB[2])>>;
+    vector $distancePerVector = $distance / (size($vertex) - 1);
+    for ($i = 1; $i < size($vertex) - 1; $i++){
+        move ($posB[0] + $distancePerVector.x * ($i * -1 + size($vertex) - 1)) ($posB[1] + $distancePerVector.y * ($i * -1 + size($vertex) - 1)) ($posB[2] + $distancePerVector.z * ($i * -1 + size($vertex) - 1)) $vertex[$i];
+    }
+}
+
+equi;

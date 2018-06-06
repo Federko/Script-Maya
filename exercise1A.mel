@@ -1,0 +1,75 @@
+proc string[] CreateShapes()
+{
+    string $objects[];
+    int $objIndex;
+
+    float $ray = 1;
+    for($i = 0; $i < 3; ++$i)
+    {
+        string $name = "sph" + $i;
+        float $xPos = $ray / 2.0 + 5.0 * $i;
+        polySphere -n $name -r $ray;
+        move -a $xPos 0 0 $name;
+        $objects[$objIndex++] = $name;
+    }
+
+    float $size = 1;
+    for($i = 0; $i < 3; ++$i)
+    {
+        string $name = "cub" + $i;
+        float $xPos = $ray / 2.0 + 5.0 * $i;
+        float $yPos = $ray / 2.0 + 3.0;
+        polyCube -n $name -h $size -d $size -w $size;
+        move -a $xPos $yPos 0 $name;
+        $objects[$objIndex++] = $name;
+    }
+
+    float $red[] = {1, 0, 0};
+    float $green[] = {0, 1, 0};
+    float $blue[] = {0, 0, 1};
+    string $createObjs[] = `addMaterial "cub0" $red "lambert"`;
+    append_array($createObjs, $objects);
+    string $createObjs[] = `addMaterial "cub1" $green "lambert"`;
+    append_array($createObjs, $objects);
+    string $createObjs[] = `addMaterial "cub2" $blue "blinn"`;
+    append_array($createObjs, $objects);
+    return $objects;
+}
+
+proc clean(string $objects[])
+{
+    for($object in objects)
+    {
+        delete $object;
+    }
+}
+
+proc string[] addMaterial(string $name, float $color[], string $matType)
+{
+    string $matName = $name + "_" + $matType;
+    string $shaderName = $name + "_SG";
+
+    shadingNode -asShader $matType -n $matName;
+    sets -renderable true -noSurfaceShader true -empty -name $shaderName;
+    connectAttr -f (matName+".outColor") (shaderName+".surfaceShader");
+    setAttr ($matName+".color") -type double3 $color[0] $color[1] $color[2];
+
+    select -r $name;
+    hyperShade -assign $matName;
+
+    string $createObjs[];
+    $createObjs[0] = $matName;
+    $createObjs[1] = $shaderName;
+    return $createObjs;
+}
+
+proc append_array(string $toAppend, string $result[])
+{
+    for($each in $result)
+    {
+        
+    }
+}
+
+string $objs[] = `CreateShapes`;
+clean($objs);

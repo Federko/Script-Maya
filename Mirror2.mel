@@ -1,0 +1,14 @@
+string $sel[] = `ls -os`;
+for($item in $sel)
+{
+    string $parent = `firstParentOf($item)`;
+    $group1 = `group -em`;
+    parent $item $group1;
+    setAttr ($group1 + ".scaleX") -1;
+    ungroup $group1;
+    if($parent != "")
+    {
+        parent $item $parent;
+    }
+}
+select $sel;

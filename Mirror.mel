@@ -1,0 +1,7 @@
+string $sel[] = `ls -os`;
+string $group1 = `group -em`;
+parent $sel $group1;
+setAttr ($group1 + ".scaleX") -1;
+ungroup $group1;
+select $sel;
+

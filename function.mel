@@ -1,0 +1,16 @@
+global proc printFunction2() //global per farla vedere su maya sennò è privata
+{
+       string $sel[] = `ls -selection`;
+
+    for($item in $sel)
+    {
+        print($item + "\n");
+    }
+       
+    for($item in $sel)
+    {
+        if(`gmatch $item "foo:pSphere*"`) print "è una polysphere\n";
+        else print "è un cane\n";
+        if(`nodeType($item)` == "transform") print "è una transform";
+    }
+}
